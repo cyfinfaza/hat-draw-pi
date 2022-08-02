@@ -54,7 +54,7 @@ def on_message(client, userdata, msg):
 clientId = "hat-" + str(uuid4())
 print("clientId: " + clientId)
 client = mqtt.Client(clientId, clean_session=True, transport="websockets")
-client.ws_set_options(path="/ws")
+client.ws_set_options(path="/mqtt")
 client.tls_set(certifi.where())
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
@@ -65,7 +65,7 @@ while True:
         hat.set_pixel(7, 7, 255, 0, 0)
         if not hadFirstConnection:
             try:
-                client.connect("mq02.cy2.me", 443, 1)
+                client.connect("mqtt.4hcomputers.club", 443, 60)
             except:
                 print("Failed to connect, trying again in 1 second")
                 time.sleep(1)
