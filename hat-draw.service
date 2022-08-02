@@ -1,0 +1,11 @@
+[Unit]
+Description=HAT Draw Client
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/hat-draw/client.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
