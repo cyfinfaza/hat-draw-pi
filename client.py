@@ -19,6 +19,8 @@ def convertHexArrayToRGB(hexArray):
     rgbArray = []
     for hex in hexArray:
         try:
+            if not len(hex) == 7:
+                raise Exception("Hex string is not 7 characters long")
             rgbArray.append(ImageColor.getrgb(hex))
         except Exception as e:
             print(f'FAILED TO SET COLOR "{hex}" at position {len(rgbArray)}: {e}')
