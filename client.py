@@ -18,7 +18,11 @@ hadFirstConnection = False
 def convertHexArrayToRGB(hexArray):
     rgbArray = []
     for hex in hexArray:
-        rgbArray.append(ImageColor.getrgb(hex))
+        try:
+            rgbArray.append(ImageColor.getrgb(hex))
+        except Exception as e:
+            print(f'FAILED TO SET COLOR "{hex}" at position {len(rgbArray)}: {e}')
+            rgbArray.append((0, 0, 0))
     return rgbArray
 
 
@@ -41,7 +45,9 @@ def on_disconnect(client, userdata, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print(f"{msg.topic}: {len(msg.payload)} characters, ", end="")
+    print(
+        f"INCOMING {msg.topic} ({len(msg.payload)} characters), attempting display update"
+    )
     try:
         data = json.loads(msg.payload)
         hat.set_pixels(convertHexArrayToRGB(data["grid"]))
